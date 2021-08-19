@@ -19,10 +19,14 @@ func init() {
 		if err != nil {
 			panic(err)
 		}
-		words := strings.Split(v[1], " ")
+		seed, err := hex.DecodeString(v[2])
+		if err != nil {
+			panic(err)
+		}
 		testVectors = append(testVectors, vector{
 			ent:   ent,
-			words: words,
+			words: strings.Split(v[1], " "),
+			seed:  seed,
 		})
 	}
 }
@@ -33,7 +37,8 @@ var testVectors []vector
 
 type vector struct {
 	ent   Entropy
-	words []string
+	words Mnemonic
+	seed  Seed
 }
 
 func TestEnglish_NewMnemonic(t *testing.T) {

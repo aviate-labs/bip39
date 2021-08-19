@@ -11,7 +11,9 @@ var (
 	bi2048 = big.NewInt(0x0800) // 1000_0000_0000
 )
 
-func (l WordList) NewMnemonic(ent Entropy) ([]string, error) {
+type Mnemonic []string
+
+func (l WordList) NewMnemonic(ent Entropy) (Mnemonic, error) {
 	if err := ent.Valid(); err != nil {
 		return nil, err
 	}
@@ -26,7 +28,7 @@ func (l WordList) NewMnemonic(ent Entropy) ([]string, error) {
 	}
 	var (
 		word  = new(big.Int)
-		words []string
+		words Mnemonic
 	)
 	for i := 0; i < 33*len(ent)/44; i++ {
 		// Split into groups of 11 bits.
